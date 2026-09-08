@@ -6,6 +6,8 @@ import {
     ActionRowBuilder
 } from 'discord.js';
 
+import { setTrainingScenario } from '../../services/trainingService.js';
+
 const scenarios = [
     "A member keeps spamming messages after you already warned them. What would you do?",
     "Two members start arguing and insulting each other in general chat. What should you do?",
@@ -27,6 +29,13 @@ export default {
     async execute(interaction) {
         const scenario =
             scenarios[Math.floor(Math.random() * scenarios.length)];
+
+        // Save the scenario for this staff member
+        setTrainingScenario(
+            interaction.guildId,
+            interaction.user.id,
+            scenario
+        );
 
         const button = new ButtonBuilder()
             .setCustomId('train_submit')
